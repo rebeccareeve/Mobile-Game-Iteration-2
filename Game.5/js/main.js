@@ -10,11 +10,11 @@ var config = {
       gravity: {
         y: 1
       },
-      debug: false,
+      debug: true,
       debugBodyColor: 0xffffff
     }
   },
-  scene: [LightScene, DarkScene, SpriteScene, UIScene],
+  scene: [Tutorial, LightScene, DarkScene, SpriteScene, UIScene],
   callbacks: {
     postBoot: function() {
       resize();

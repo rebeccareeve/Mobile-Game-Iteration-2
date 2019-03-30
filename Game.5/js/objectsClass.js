@@ -132,6 +132,22 @@ class chair {
   }
 }
 
+class brick {
+  constructor (scene, x, y) {
+    this.scene = scene;
+    this.sprite = scene.matter.add
+    .sprite(0, 0, "brick", 0)
+    .setDepth(4)
+    .setBody()
+    .setScale(1)
+    .setFixedRotation()
+    .setPosition(x, y)
+    .setVisible(true)
+    .setStatic(true)
+
+  }
+}
+
 
 class lift {
   constructor (scene, x, y) {

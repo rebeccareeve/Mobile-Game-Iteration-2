@@ -7,55 +7,6 @@ class SpriteScene extends Phaser.Scene {
 
   preload() {
 
-    this.load.image('light', 'assets/light.png');
-    this.load.image('chair1', 'assets/chair1.png');
-    this.load.image('chair2', 'assets/chair2.png');
-    this.load.image('printer', 'assets/printer.png');
-    this.load.image('cupboard', 'assets/cupboard.png');
-    this.load.image('stairs', 'assets/stairs.png');
-    this.load.image('stairsx2', 'assets/stairsx2.png');
-    this.load.image('desk', 'assets/desk.png');
-    this.load.image('locker', 'assets/locker.png');
-    this.load.image('platform', 'assets/platform.png');
-    this.load.image('barrier', 'assets/barrier.png');
-    this.load.image('laserBlue', 'assets/blueLaser.png');
-    this.load.image('laserRed', 'assets/redLaser.png');
-    this.load.image('laserBlueMedium', 'assets/blueLaserMed.png');
-    this.load.image('laserRedMedium', 'assets/redLaserMed.png');
-    this.load.image('laserRedLarge', 'assets/redLaserLarge.png');
-
-    this.load.spritesheet("player", 'assets/SpriteSheetIdle.png', {
-      frameWidth: 21,
-      frameHeight: 50,
-    });
-    this.load.spritesheet("walk", "assets/SpriteSheetWalk.png", {
-      frameWidth: 23,
-      frameHeight: 50
-    });
-    this.load.spritesheet("switch", "assets/SpriteSheetAction.png", {
-      frameWidth: 34,
-      frameHeight: 50
-    });
-
-    this.load.spritesheet("keyCardSprite", "assets/keyCardSpriteSheetNB.png", {
-      frameWidth: 160,
-      frameHeight: 160
-    });
-
-    this.load.spritesheet("cupboardStack", "assets/cupboardStack.png", {
-      frameWidth: 23,
-      frameHeight: 160
-    });
-
-    this.load.spritesheet("slime", "assets/Slime.png", {
-      frameWidth: 62,
-      frameHeight: 42
-    });
-
-    this.load.spritesheet("portal", "assets/portal.png", {
-      frameWidth: 182,
-      frameHeight: 206
-    });
 
     // this.load.spritesheet("endText", "assets/endText.png", {
     //   frameWidth: 188,
@@ -66,7 +17,7 @@ class SpriteScene extends Phaser.Scene {
   create() {
     window.addEventListener('resize', resize, false);
     this.matter.world.setBounds(0, 0, 2272, 1265);
-    this.player = new Player(this, 2000, 680); //(this, 20, 1240); //300, 900
+    this.player = new Player(this, 20, 1240); //(this, 20, 1240); //300, 900
     // this.enemies = [this.slime1.sprite, this.slime2.sprite, this.slime3.sprite];
     this.player.sensors();
     this.slime1 = new enemy(this, 1500, 1240);
@@ -90,6 +41,7 @@ class SpriteScene extends Phaser.Scene {
     this.redLaser2 = new laserRed(this, 1950, 655);
     this.redLaser3 = new laserRedMedium(this, 1600, 655);
     this.redLaser4 = new laserRedMedium(this, 900, 715);
+    this.brick1 = new brick(this, 800, 1150);
     // this.endText = new text(this, 1300, 530);
     // //cat 0x0016
     // //mask 0x0064
@@ -98,6 +50,10 @@ class SpriteScene extends Phaser.Scene {
     this.input.addPointer();
 
     var mouseSpring = this.matter.add.mouseSpring();
+    this.music = this.sound.add('backgroundMusic', {
+      loop: true,
+      volume: 0.5
+    });
 
     mouseSpring.constraint.collisionFilter.category = 0x0064 //TODO Write up about it (catagories and masks)
     mouseSpring.constraint.collisionFilter.mask = 0x0016 //TODO Write up about it (catagories and masks)
@@ -120,32 +76,32 @@ class SpriteScene extends Phaser.Scene {
 
     // MATTER OBJECTS FOR SCENES
     {
-    this.cupboardStackSecondFloor = new cupboardStack(this, 993, 1040);
-    this.stairsThirdFloorLightScene1 = new stairs(this, 1135, 895);
-    this.stairsThirdFloorLightScene2 = new stairs(this, 1225, 895);
-    this.stairsx2ThirdFloorLightScene = new stairsx2(this, 1180, 880);
-    this.stairsThirdFloorDarkScene = new stairs(this, 0, 0); //1895, 895
-    this.stairsx2ThirdFloorDarkScene = new stairsx2(this, 0, 0); // 1850, 880
-    this.platform1 = new platform(this, 0, 0); // 2035, 1240
-    this.platform2 = new platform(this, 0, 0); // 2095, 1207
-    this.platform3 = new platform(this, 0, 0); // 2160, 1178
-    this.platform4 = new platform(this, 0, 0); // 2222, 1146
-    this.barrierFirstFloorLightScene = new barrier(this, 2200, 1185);
-    this.barrierSecondFloorDarkScene = new barrier(this, 970, 1010);
-    this.barrierThirdFloorDarkScene = new barrier(this, 1190, 835);
-    this.barrierThirdFloorLightScene = new barrier(this, 1800, 835);
-    // this.locker = new locker(this, 0, 0); //1850, 720
-    this.desk = new desk(this, 0, 0);
-    this.chair = new chair(this, 0, 0);
-    this.platform5 = new platform(this, 1080, 1010);
-  }
+      this.cupboardStackSecondFloor = new cupboardStack(this, 993, 1040);
+      this.stairsThirdFloorLightScene1 = new stairs(this, 1135, 895);
+      this.stairsThirdFloorLightScene2 = new stairs(this, 1225, 895);
+      this.stairsx2ThirdFloorLightScene = new stairsx2(this, 1180, 880);
+      this.stairsThirdFloorDarkScene = new stairs(this, 0, 0); //1895, 895
+      this.stairsx2ThirdFloorDarkScene = new stairsx2(this, 0, 0); // 1850, 880
+      this.platform1 = new platform(this, 0, 0); // 2035, 1240
+      this.platform2 = new platform(this, 0, 0); // 2095, 1207
+      this.platform3 = new platform(this, 0, 0); // 2160, 1178
+      this.platform4 = new platform(this, 0, 0); // 2222, 1146
+      this.barrierFirstFloorLightScene = new barrier(this, 2200, 1185);
+      this.barrierSecondFloorDarkScene = new barrier(this, 970, 1010);
+      this.barrierThirdFloorDarkScene = new barrier(this, 1190, 835);
+      this.barrierThirdFloorLightScene = new barrier(this, 1800, 835);
+      // this.locker = new locker(this, 0, 0); //1850, 720
+      this.desk = new desk(this, 0, 0);
+      this.chair = new chair(this, 0, 0);
+      this.platform5 = new platform(this, 1080, 1010);
+    }
 
     //PICKUP OBJECTS
     {
-    this.keyCardSecondFloor = new keyCard(this, 770, 1050);
-    this.keyCardThirdFloor = new keyCard(this, 1175, 838);
-    this.keyCardFourthFloor = new keyCard(this, 1900, 680);
-}
+      this.keyCardSecondFloor = new keyCard(this, 770, 1050);
+      this.keyCardThirdFloor = new keyCard(this, 1175, 838);
+      this.keyCardFourthFloor = new keyCard(this, 1900, 680);
+    }
     // this.pickUpKeyCards();
 
     this.cameras.main.setBounds(0, 0, 2272, 1280);
@@ -178,8 +134,16 @@ class SpriteScene extends Phaser.Scene {
       });
 
       this.matterCollision.addOnCollideStart({
-        objectA: [this.player.sensors.left, this.player.sensors.right],
+        objectA: [this.player.sensors.left, this.player.sensors.right, this.player.sensors.down, this.player.sensors.up],
         objectB: [this.redLaser1.sprite, this.redLaser2.sprite, this.redLaser3.sprite, this.redLaser4.sprite, this.blueLaser1.sprite, this.blueLaser2.sprite, this.blueLaser3.sprite, this.blueLaser4.sprite, this.blueLaser5.sprite],
+        callback: this.damagePlayer,
+        context: this
+      });
+
+
+      this.matterCollision.addOnCollideStart({
+        objectA: [this.player.sensors.left, this.player.sensors.right],
+        objectB: [this.slime1.sprite, this.slime2.sprite, this.slime3.sprite, this.slime4.sprite],
         callback: this.damagePlayer,
         context: this
       });
@@ -339,7 +303,9 @@ class SpriteScene extends Phaser.Scene {
     this.slime2.sprite.setVelocityX(this.setSlimeVelocityX);
     this.slime3.sprite.setVelocityX(this.setSlimeVelocityX);
     this.slime4.sprite.setVelocityX(this.setSlimeVelocityX);
-
+    if (!this.music.isPlaying) {
+      this.music.play();
+    }
   }
 
   // PLAYER MOVEMENT AND ANIMATION CHECK
@@ -352,31 +318,23 @@ class SpriteScene extends Phaser.Scene {
     }
 
     if (this.switchAnimationRunning) {
+      console.log(this.player);
       this.player.sprite.play("characterSwitch", true);
     } else {
       if (this.player.movement.left) {
         this.player.sprite.setVelocityX(-4);
         this.player.sprite.flipX = true;
-        this.player.sprite.anims.play("characterWalk", true);
+        //this.player.sprite.anims.play("characterWalk", true);
       } else if (this.player.movement.right) {
         this.player.sprite.setVelocityX(4);
         this.player.sprite.flipX = false;
-        this.player.sprite.anims.play("characterWalk", true);
+        //this.player.sprite.anims.play("characterWalk", true);
       } else {
         this.player.sprite.setVelocityX(0)
         if (!this.switchAnimationRunning) {}
-        this.player.sprite.anims.play("characterIdle", true);
+        //this.player.sprite.anims.play("characterIdle", true);
       }
     }
-    // if (!this.switchAnimationRunning) {
-    //   if (jumpUp) {
-    //     this.player.sprite.setVelocityY(-3);
-    //     jumpUp = false;
-    //     console.log('hi');
-    //   } else {
-    //     this.player.sprite.setVelocityY(0)
-    //   }
-    // }
   }
 
 
@@ -407,13 +365,15 @@ class SpriteScene extends Phaser.Scene {
   }
 
   damagePlayer() {
-  this.player.health --;
-  console.log(this.player.health);
+    this.player.health--;
+    this.player.sprite.setTint(0xCC0000);
+    console.log(this.player.health);
   }
 
   playerDeath() {
-    if(this.player.health == 0){
+    if (this.player.health <= 0) {
       this.matter.scene.scene.pause('SpriteScene');
+      this.music.setVolume(0);
       console.log('dead');
     }
 
@@ -513,6 +473,10 @@ class SpriteScene extends Phaser.Scene {
     this.slime3.sprite.anims.play('enemy', true);
     this.slime4.sprite.anims.play('enemy', true);
     this.portal.sprite.anims.play('portal', true);
+    this.redLaser2.sprite.anims.play('laserRedFlash', true);
+    this.blueLaser1.sprite.anims.play('laserBlueFlash', true);
+    this.blueLaser2.sprite.anims.play('laserBlueFlash', true);
+    this.blueLaser5.sprite.anims.play('laserBlueFlash', true);
   }
 
   // PLAYER ANIMATIONS - IDLE, WALK AND SWITCH & KEYCARD ANIMATION
@@ -572,6 +536,24 @@ class SpriteScene extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('portal', {
         start: 3,
         end: 12
+      }),
+      frameRate: 8,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'laserRedFlash',
+      frames: this.anims.generateFrameNumbers('laserRed', {
+        start: 0,
+        end: 6
+      }),
+      frameRate: 8,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'laserBlueFlash',
+      frames: this.anims.generateFrameNumbers('laserBlue', {
+        start: 0,
+        end: 6
       }),
       frameRate: 8,
       repeat: -1,

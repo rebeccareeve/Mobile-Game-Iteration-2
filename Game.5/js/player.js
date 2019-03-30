@@ -18,7 +18,7 @@ class Player {
       switch: false,
     }
     this.allowJump = false;
-    this.health = 3;
+    this.health = 5;
   }
   switch () {
     this.movement.switch = !this.movement.switch
