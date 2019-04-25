@@ -23,9 +23,7 @@ class Player {
   switch () {
     this.movement.switch = !this.movement.switch
   }
-  update() {
-
-  }
+  update() {}
 
   sensors() {
     const Bodies = Phaser.Physics.Matter.Matter.Bodies;
@@ -36,7 +34,7 @@ class Player {
       right: Bodies.rectangle(this.sprite.x + 20 - 7, this.sprite.y, 4, 50, {
         isSensor: true
       }),
-      down: Bodies.rectangle(this.sprite.x, this.sprite.y + 25, 24 , 4, {
+      down: Bodies.rectangle(this.sprite.x, this.sprite.y + 25, 24, 4, {
         isSensor: true
       })
     };

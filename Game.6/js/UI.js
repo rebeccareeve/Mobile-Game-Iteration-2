@@ -28,7 +28,6 @@ class UIScene extends Phaser.Scene {
       jump: new Button(this, 2115, 1115, 'upButton').sprite.setInteractive().on('pointerdown', function() {
         if (this.scene.manager.getScene('SpriteScene').player.allowJump) {
           this.scene.manager.getScene('SpriteScene').player.movement.jump = true
-
         }
       }, this),
       switch: new Button(this, 2115, 160, 'switchButton').sprite.setInteractive().on('pointerdown', function() {this.scene.manager.getScene('SpriteScene').player.movement.switch = true}, this),
